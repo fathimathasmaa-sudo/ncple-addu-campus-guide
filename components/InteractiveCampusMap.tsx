@@ -16,7 +16,6 @@ const locations = [
 
 type Location = (typeof locations)[number];
 
-// Positions correspond to the numbered markers in the official map artwork.
 const hotspotPositions: Record<number, { left: string; top: string }> = {
   1: { left: "45.8%", top: "49%" }, 2: { left: "39.1%", top: "49%" }, 3: { left: "27.6%", top: "56%" }, 4: { left: "18.2%", top: "52%" },
   5: { left: "14.1%", top: "56%" }, 6: { left: "14.1%", top: "41%" }, 7: { left: "9.8%", top: "52%" }, 8: { left: "33.5%", top: "56%" },
@@ -89,7 +88,7 @@ export function InteractiveCampusMap() {
               const [number, name] = location;
               const position = hotspotPositions[number];
               const isSelected = selected?.[0] === number;
-              return <button key={number} type="button" onClick={() => selectLocation(location)} aria-label={`${String(number).padStart(2, "0")} — ${name}`} title={name} className={`absolute flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 text-[11px] font-extrabold shadow-md transition focus:outline-none focus:ring-4 focus:ring-ncple-200 md:h-10 md:w-10 ${isSelected ? "scale-110 border-white bg-ncple-700 text-white ring-4 ring-ncple-200" : "border-white bg-white/95 text-ncple-800 hover:scale-110 hover:bg-ncple-700 hover:text-white"}`} style={position}>{String(number).padStart(2, "0")}</button>;
+              return <button key={number} type="button" onClick={() => selectLocation(location)} aria-label={`${String(number).padStart(2, "0")} — ${name}`} title={name} className={`absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border text-[9px] font-extrabold shadow-sm transition focus:outline-none focus:ring-4 focus:ring-ncple-200 md:h-8 md:w-8 md:text-[10px] ${isSelected ? "scale-125 border-white bg-ncple-700 text-white ring-4 ring-ncple-200" : "border-white/90 bg-white/90 text-ncple-800 hover:scale-110 hover:bg-ncple-700 hover:text-white"}`} style={position}>{String(number).padStart(2, "0")}</button>;
             })}
           </div>
         </div>
