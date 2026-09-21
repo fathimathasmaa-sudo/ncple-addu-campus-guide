@@ -1,0 +1,4 @@
+"use client";
+import Link from "next/link";import {usePathname} from "next/navigation";import {Home,Compass,Building2,LifeBuoy,Phone} from "lucide-react";
+const items=[['/','Home',Home],['/explore','Explore',Compass],['/facilities','Facilities',Building2],['/essentials','Essentials',LifeBuoy],['/contacts','Contacts',Phone]] as const;
+export function BottomNav(){const path=usePathname();return <nav aria-label="Primary navigation" className="fixed bottom-0 left-0 right-0 z-50 border-t border-slate-200 bg-white/95 backdrop-blur md:hidden"><div className="mx-auto flex max-w-xl justify-around px-1 py-2">{items.map(([href,label,Icon])=>{const active=path===href||(href!=='/'&&path.startsWith(href));return <Link key={href} href={href} className={`flex min-w-16 flex-col items-center gap-1 rounded-xl px-3 py-2 text-xs font-semibold ${active?'text-ncple-700':'text-slate-500'}`}><Icon size={19}/>{label}</Link>})}</div></nav>}
