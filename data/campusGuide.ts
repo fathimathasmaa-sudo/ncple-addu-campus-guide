@@ -1,4 +1,5 @@
 export type Hour = { id:string; name:string; timeLabel:string; windows:{start:string;end:string}[]; featured?:boolean; location?:string };
+export type Contact = { category:string; name:string; phone:string; emergency?:boolean };
 export const guide = {
   hours:[
     {id:"breakfast",name:"Breakfast",timeLabel:"07:00 – 09:00",windows:[{start:"07:00",end:"09:00"}],featured:true,location:"Edhuru Hiya 1 Mess"},
@@ -26,7 +27,7 @@ export const guide = {
     {category:"Emergency Contacts",name:"Superintendent of Police Ameen Abdul Gayoom",phone:"+9609992670",emergency:true},
     {category:"Emergency Contacts",name:"Dr. Hassan Miushad",phone:"+9609920326",emergency:true},
     {category:"Emergency Contacts",name:"Technical Director Ismail Safhath",phone:"+9609937979",emergency:true}
-  ],
+  ] satisfies Contact[],
   accommodationChecklist:["Keep your room and personal belongings secure","Switch off lights when leaving your room","Help conserve electricity and water","Respect the privacy and comfort of other residents","Report maintenance issues to campus staff"],
   dining:[{meal:"BREAKFAST",time:"07:00 – 09:00",location:"Edhuru Hiya 1 Mess"},{meal:"LUNCH",time:"12:00 – 14:00",location:"Admin Building Cafeteria During the Session"},{meal:"DINNER",time:"19:00 – 21:00",location:"Edhuru Hiya 1 Mess"}],
   poolRules:["Use the pool only during authorised hours.","Follow instructions provided by campus staff, and wear appropriate swimming attire.","Do not enter the pool if you are unwell.","Avoid dangerous behaviour or rough play.","Keep the pool area clean.","Report any safety concern to staff immediately.","Always swim with a buddy; do not swim alone."],
