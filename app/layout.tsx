@@ -1,3 +1,3 @@
-import type {Metadata} from "next";import "./globals.css";import {BottomNav} from "@/components/BottomNav";
-export const metadata:Metadata={title:"NCPLE Addu Campus — Welcome Guide",description:"Your digital guide to a comfortable, safe and enjoyable stay.",applicationName:"NCPLE Addu Campus",manifest:"/manifest.webmanifest"};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><div className="min-h-screen safe-bottom">{children}</div><BottomNav/></body></html>}
+import type {Metadata} from "next";import "./globals.css";import {BottomNav} from "@/components/BottomNav";import {DesktopNav} from "@/components/DesktopNav";import {PWARegister} from "@/components/PWARegister";
+export const metadata:Metadata={title:"NCPLE Addu Campus — Welcome Guide",description:"Your digital guide to a comfortable, safe and enjoyable stay.",applicationName:"NCPLE Addu Campus",manifest:"/manifest.webmanifest",icons:{icon:"/icon.svg"}};
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><DesktopNav/><div className="min-h-screen md:pl-64">{children}</div><BottomNav/><PWARegister/></body></html>}
