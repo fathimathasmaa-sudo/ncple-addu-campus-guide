@@ -16,15 +16,16 @@ const locations = [
 
 type Location = (typeof locations)[number];
 
+// Positions correspond to the numbered markers in the official map artwork.
 const hotspotPositions: Record<number, { left: string; top: string }> = {
-  1: { left: "45.8%", top: "40%" }, 2: { left: "41.8%", top: "35%" }, 3: { left: "28.7%", top: "46%" }, 4: { left: "17.2%", top: "34%" },
-  5: { left: "13.5%", top: "44%" }, 6: { left: "10.7%", top: "28%" }, 7: { left: "7.4%", top: "39%" }, 8: { left: "22.2%", top: "43%" },
-  9: { left: "53.8%", top: "36%" }, 10: { left: "58.5%", top: "40%" }, 11: { left: "62.8%", top: "40%" }, 12: { left: "66.4%", top: "40%" },
-  13: { left: "69.5%", top: "42%" }, 14: { left: "61.7%", top: "49%" }, 15: { left: "64.5%", top: "34%" }, 16: { left: "72.5%", top: "42%" },
-  17: { left: "75.5%", top: "42%" }, 18: { left: "78.5%", top: "42%" }, 19: { left: "84%", top: "35%" }, 20: { left: "70%", top: "48%" },
-  21: { left: "74%", top: "48%" }, 22: { left: "78%", top: "47%" }, 23: { left: "82%", top: "45%" }, 24: { left: "87.5%", top: "40%" },
-  25: { left: "85.5%", top: "51%" }, 26: { left: "91%", top: "36%" }, 27: { left: "89%", top: "55%" }, 28: { left: "94%", top: "31%" },
-  29: { left: "95%", top: "23%" }, 30: { left: "88%", top: "34%" }, 31: { left: "98%", top: "52%" }, 32: { left: "47.5%", top: "43%" },
+  1: { left: "45.8%", top: "49%" }, 2: { left: "39.1%", top: "49%" }, 3: { left: "27.6%", top: "56%" }, 4: { left: "18.2%", top: "52%" },
+  5: { left: "14.1%", top: "56%" }, 6: { left: "14.1%", top: "41%" }, 7: { left: "9.8%", top: "52%" }, 8: { left: "33.5%", top: "56%" },
+  9: { left: "50%", top: "49%" }, 10: { left: "54.6%", top: "45%" }, 11: { left: "57.2%", top: "45%" }, 12: { left: "54.6%", top: "55%" },
+  13: { left: "56.8%", top: "56%" }, 14: { left: "59.8%", top: "54%" }, 15: { left: "61.8%", top: "45%" }, 16: { left: "63.7%", top: "56%" },
+  17: { left: "66.0%", top: "56%" }, 18: { left: "68.5%", top: "56%" }, 19: { left: "72.0%", top: "45%" }, 20: { left: "69.3%", top: "56%" },
+  21: { left: "71.3%", top: "57%" }, 22: { left: "73.3%", top: "58%" }, 23: { left: "75.4%", top: "58%" }, 24: { left: "79.0%", top: "55%" },
+  25: { left: "82.5%", top: "66%" }, 26: { left: "82.7%", top: "50%" }, 27: { left: "88.5%", top: "70%" }, 28: { left: "91.1%", top: "50%" },
+  29: { left: "86.7%", top: "49%" }, 30: { left: "88.0%", top: "60%" }, 31: { left: "92.5%", top: "75%" }, 32: { left: "45.8%", top: "58%" },
 };
 
 function locationInfo(location: Location) {
@@ -52,7 +53,7 @@ export function InteractiveCampusMap() {
 
   function selectLocation(location: Location) {
     setSelected(location);
-    setQuery(location[1]);
+    setQuery("");
     window.setTimeout(() => document.getElementById("selected-location")?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 0);
   }
 
@@ -67,7 +68,7 @@ export function InteractiveCampusMap() {
           <label className="relative block w-full md:max-w-sm">
             <Search size={18} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
             <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search locations…" className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-10 text-sm outline-none transition focus:border-ncple-500 focus:bg-white focus:ring-2 focus:ring-ncple-100" />
-            {query && <button type="button" onClick={() => { setQuery(""); setSelected(null); }} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"><X size={17} /></button>}
+            {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"><X size={17} /></button>}
           </label>
         </div>
         {query && filtered.length > 0 && (
@@ -80,8 +81,10 @@ export function InteractiveCampusMap() {
 
       <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
         <div className="overflow-auto bg-slate-100 p-2 md:p-4">
-          <div className="relative mx-auto min-w-[720px] w-full max-w-[1400px]">
-            <img src="/Campus Map.svg" alt="Official NCPLE Addu Campus map showing numbered campus locations" className="block h-auto w-full select-none" draggable={false} />
+          <div className="relative mx-auto min-w-[720px] w-full max-w-[1400px]" style={{ aspectRatio: "3456 / 1100" }}>
+            <div className="absolute inset-0 overflow-hidden rounded-2xl">
+              <img src="/Campus Map.svg" alt="Official NCPLE Addu Campus map showing numbered campus locations" className="block h-auto w-full select-none" draggable={false} />
+            </div>
             {locations.map((location) => {
               const [number, name] = location;
               const position = hotspotPositions[number];
