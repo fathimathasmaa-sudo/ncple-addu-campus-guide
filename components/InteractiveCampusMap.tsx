@@ -29,15 +29,16 @@ const hotspotPositions: Record<number, { left: string; top: string }> = {
   10: { left: "55.03%", top: "43.89%" }, 11: { left: "55.03%", top: "49.15%" }, 12: { left: "55.06%", top: "53.75%" },
   13: { left: "57.20%", top: "54.72%" }, 14: { left: "60.30%", top: "52.86%" }, 15: { left: "66.31%", top: "55.18%" },
   16: { left: "70.02%", top: "54.72%" }, 17: { left: "72.08%", top: "56.46%" }, 18: { left: "74.05%", top: "57.59%" },
-  19: { left: "76.21%", top: "56.77%" }, 20: { left: "78.38%", top: "50.25%" }, 21: { left: "81.25%", top: "59.17%" },
-  22: { left: "81.88%", top: "46.36%" }, 23: { left: "86.25%", top: "62.43%" }, 24: { left: "88.38%", top: "46.40%" },
-  25: { left: "85.00%", top: "45.83%" }, 26: { left: "85.88%", top: "53.75%" },
+  19: { left: "76.21%", top: "56.77%" },
+  20: { left: "78.56%", top: "49.71%" }, 21: { left: "81.31%", top: "58.53%" }, 22: { left: "81.88%", top: "45.59%" },
+  23: { left: "86.15%", top: "62.94%" }, 24: { left: "88.33%", top: "45.88%" }, 25: { left: "85.01%", top: "45.59%" },
+  26: { left: "86.15%", top: "52.94%" },
 };
 
 const gatePositions: Record<string, { left: string; top: string }> = {
-  A: { left: "44.20%", top: "61.00%" },
-  B: { left: "84.40%", top: "70.80%" },
-  C: { left: "22.60%", top: "64.50%" },
+  A: { left: "45.83%", top: "61.47%" },
+  B: { left: "93.07%", top: "77.94%" },
+  C: { left: "17.17%", top: "62.35%" },
 };
 
 function locationInfo(location: Location): LocationInfo {
