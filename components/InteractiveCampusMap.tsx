@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { MapPin, Search, X } from "lucide-react";
 
 const locations = [
@@ -63,19 +63,30 @@ function gateInfo(gate: Gate): LocationInfo {
 export function InteractiveCampusMap() {
   const [selected, setSelected] = useState<SelectedItem | null>(null);
   const [query, setQuery] = useState("");
+  const mapRef = useRef<HTMLDivElement>(null);
   const filtered = useMemo(() => locations.filter(([, name]) => name.toLowerCase().includes(query.trim().toLowerCase())), [query]);
   const info: LocationInfo | null = selected ? selected.kind === "location" ? locationInfo(selected.item) : gateInfo(selected.item) : null;
+
+  function focusMapSelection(kind: "location" | "gate", key: number | string) {
+    window.setTimeout(() => {
+      mapRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.setTimeout(() => {
+        const target = document.getElementById(`map-hotspot-${kind}-${key}`);
+        target?.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+      }, 250);
+    }, 0);
+  }
 
   function selectLocation(location: Location) {
     setSelected({ kind: "location", item: location });
     setQuery("");
-    window.setTimeout(() => document.getElementById("selected-location")?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 0);
+    focusMapSelection("location", location[0]);
   }
 
   function selectGate(gate: Gate) {
     setSelected({ kind: "gate", item: gate });
     setQuery("");
-    window.setTimeout(() => document.getElementById("selected-location")?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 0);
+    focusMapSelection("gate", gate[0]);
   }
 
   return (
@@ -100,7 +111,7 @@ export function InteractiveCampusMap() {
         {query && filtered.length === 0 && <p className="mt-3 text-sm text-slate-500">No campus locations match “{query}”.</p>}
       </div>
 
-      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
+      <div ref={mapRef} className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-soft">
         <div className="overflow-auto bg-slate-100 p-2 md:p-4">
           <div className="relative mx-auto min-w-[720px] w-full max-w-[1400px]" style={{ aspectRatio: "3405.26 / 1100" }}>
             <div className="absolute inset-0 overflow-hidden rounded-2xl">
@@ -110,12 +121,12 @@ export function InteractiveCampusMap() {
               const [number, name] = location;
               const position = hotspotPositions[number];
               const isSelected = selected?.kind === "location" && selected.item[0] === number;
-              return <button key={number} type="button" onClick={() => selectLocation(location)} aria-label={`${String(number).padStart(2, "0")} — ${name}`} title={name} className="absolute flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ncple-300" style={position}><span className={`flex h-5 w-5 items-center justify-center rounded-full border text-[9px] font-extrabold shadow-sm transition md:h-6 md:w-6 md:text-[10px] ${isSelected ? "scale-125 border-white bg-ncple-700 text-white ring-2 ring-ncple-200" : "border-white/90 bg-white/90 text-ncple-800 hover:scale-110 hover:bg-ncple-700 hover:text-white"}`}>{String(number).padStart(2, "0")}</span></button>;
+              return <button id={`map-hotspot-location-${number}`} key={number} type="button" onClick={() => selectLocation(location)} aria-label={`${String(number).padStart(2, "0")} — ${name}`} title={name} className="absolute flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ncple-300" style={position}><span className={`flex h-5 w-5 items-center justify-center rounded-full border text-[9px] font-extrabold shadow-sm transition md:h-6 md:w-6 md:text-[10px] ${isSelected ? "scale-125 border-white bg-ncple-700 text-white ring-2 ring-ncple-200" : "border-white/90 bg-white/90 text-ncple-800 hover:scale-110 hover:bg-ncple-700 hover:text-white"}`}>{String(number).padStart(2, "0")}</span></button>;
             })}
             {gates.map((gate) => {
               const position = gatePositions[gate[0]];
               const isSelected = selected?.kind === "gate" && selected.item[0] === gate[0];
-              return <button key={gate[0]} type="button" onClick={() => selectGate(gate)} aria-label={`${gate[0]} — ${gate[1]}`} title={gate[1]} className="absolute flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ncple-300" style={position}><span className={`flex h-5 w-5 items-center justify-center rounded-full border text-[9px] font-extrabold shadow-sm transition md:h-6 md:w-6 md:text-[10px] ${isSelected ? "scale-125 border-white bg-ncple-700 text-white ring-2 ring-ncple-200" : "border-white/90 bg-white/90 text-ncple-800 hover:scale-110 hover:bg-ncple-700 hover:text-white"}`}>{gate[0]}</span></button>;
+              return <button id={`map-hotspot-gate-${gate[0]}`} key={gate[0]} type="button" onClick={() => selectGate(gate)} aria-label={`${gate[0]} — ${gate[1]}`} title={gate[1]} className="absolute flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ncple-300" style={position}><span className={`flex h-5 w-5 items-center justify-center rounded-full border text-[9px] font-extrabold shadow-sm transition md:h-6 md:w-6 md:text-[10px] ${isSelected ? "scale-125 border-white bg-ncple-700 text-white ring-2 ring-ncple-200" : "border-white/90 bg-white/90 text-ncple-800 hover:scale-110 hover:bg-ncple-700 hover:text-white"}`}>{gate[0]}</span></button>;
             })}
           </div>
         </div>
