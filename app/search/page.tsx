@@ -1,7 +1,7 @@
 "use client";
 import {useMemo,useState} from "react";
 import Link from "next/link";
-import {Search as SearchIcon,ArrowRight,Clock3,MapPinned,Phone,Wifi,ShieldCheck,ClipboardCheck} from "lucide-react";
+import {Search as SearchIcon,ArrowRight,Clock3,MapPinned,Phone,Wifi,ShieldCheck,ClipboardCheck,Shirt,Cigarette} from "lucide-react";
 import {PageShell} from "@/components/PageShell";
 
 const records=[
@@ -14,7 +14,8 @@ const records=[
  ['/safety','Safety & Security','Campus safety and security guidance.','safety security surroundings staff security personnel',ShieldCheck],
  ['/contacts','Important Contacts','Campus, medical and emergency contacts.','doctor security campus contact emergency',Phone],
  ['/checkout','Before You Check Out','A quick checklist before departure.','checkout belongings keys access cards departure arrangements',ClipboardCheck],
- ['/smoking','Smoking Area','Designated smoking area and rules.','smoking Edhuru Hiya 1 Hut designated area',ShieldCheck],
+ ['/dress-code','Dress Code','Clothing guidance for classes, activities, recreation and dining.','dress clothing classes official activities sports recreation dining shorts slippers professional',Shirt],
+ ['/smoking','Smoking Areas','Designated smoking area and rules.','smoking Edhuru Hiya 1 Hut designated area cigarette',Cigarette],
  ['/police-shop','Police Shop','Shop location, hours and essentials.','cosmetics toiletries snacks 09:00 13:00 21:00 23:00',ClipboardCheck],
  ['/access','Entering & Leaving the Campus','Gate and entry/exit guidance.','gate officer identification entry exit register main emergency gate',MapPinned]
 ] as const;
@@ -22,7 +23,7 @@ const records=[
 export default function Search(){
  const [q,setQ]=useState('');
  const results=useMemo(()=>{const n=q.trim().toLowerCase();return n?records.filter(([,t,x,keywords])=>`${t} ${x} ${keywords}`.toLowerCase().includes(n)):[]},[q]);
- const suggestions=['pool','breakfast','Wi-Fi','contacts'];
+ const suggestions=['pool','breakfast','Wi-Fi','dress code','smoking','contacts'];
  return <PageShell title="Search" eyebrow="Find it fast">
    <div className="mt-6 rounded-3xl border border-slate-200 bg-white p-3 shadow-soft focus-within:border-ncple-300 focus-within:ring-4 focus-within:ring-ncple-50">
      <div className="flex items-center gap-3 px-2 py-1">

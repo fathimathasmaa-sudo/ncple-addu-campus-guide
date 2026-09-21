@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { ArrowRight, Map, Building2, LifeBuoy, Phone, ClipboardCheck } from "lucide-react";
+import { ArrowRight, Map, Building2, LifeBuoy, Phone, ClipboardCheck, Shirt, Cigarette } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
 
 const sections = [
   { href: "/map", title: "Campus Map", description: "Find key campus locations.", icon: Map },
   { href: "/facilities", title: "Facilities", description: "Explore accommodation, dining and recreation facilities.", icon: Building2 },
+  { href: "/dress-code", title: "Dress Code", description: "Guidance for classes, official activities, recreation and dining.", icon: Shirt },
+  { href: "/smoking", title: "Smoking Areas", description: "Find the designated smoking area and campus smoking guidance.", icon: Cigarette },
   { href: "/essentials", title: "Campus Essentials", description: "Wi-Fi, access, safety and other useful information.", icon: LifeBuoy },
   { href: "/contacts", title: "Important Contacts", description: "Reach campus and emergency contacts quickly.", icon: Phone },
   { href: "/checkout", title: "Checkout Checklist", description: "Make sure everything is ready before departure.", icon: ClipboardCheck },
