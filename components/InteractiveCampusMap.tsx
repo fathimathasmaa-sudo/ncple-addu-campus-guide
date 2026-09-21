@@ -20,6 +20,7 @@ const gates = [
 type Location = (typeof locations)[number];
 type Gate = (typeof gates)[number];
 type SelectedItem = { kind: "location"; item: Location } | { kind: "gate"; item: Gate };
+type LocationInfo = { category: string; description: string; href?: string };
 
 const hotspotPositions: Record<number, { left: string; top: string }> = {
   1: { left: "45.62%", top: "47.71%" }, 2: { left: "39.34%", top: "48.12%" }, 3: { left: "40.80%", top: "43.90%" },
@@ -39,9 +40,9 @@ const gatePositions: Record<string, { left: string; top: string }> = {
   C: { left: "22.60%", top: "64.50%" },
 };
 
-function locationInfo(location: Location) {
+function locationInfo(location: Location): LocationInfo {
   const [number, name] = location;
-  const details: Record<number, { category: string; description: string; href?: string }> = {
+  const details: Record<number, LocationInfo> = {
     2: { category: "Administration", description: "Reception & waiting area, Executive Director's Office, administration and centre offices, classrooms and syndicate rooms, computer lab and library, cafeteria and multipurpose hall, and conference room." },
     6: { category: "Health", description: "Campus clinic." },
     14: { category: "Worship", description: "Campus mosque." },
@@ -54,7 +55,7 @@ function locationInfo(location: Location) {
   return details[number] ?? { category: "Campus location", description: name };
 }
 
-function gateInfo(gate: Gate) {
+function gateInfo(gate: Gate): LocationInfo {
   return { category: "Campus access", description: `${gate[1]} — campus access point.` };
 }
 
@@ -62,7 +63,7 @@ export function InteractiveCampusMap() {
   const [selected, setSelected] = useState<SelectedItem | null>(null);
   const [query, setQuery] = useState("");
   const filtered = useMemo(() => locations.filter(([, name]) => name.toLowerCase().includes(query.trim().toLowerCase())), [query]);
-  const info = selected ? selected.kind === "location" ? locationInfo(selected.item) : gateInfo(selected.item) : null;
+  const info: LocationInfo | null = selected ? selected.kind === "location" ? locationInfo(selected.item) : gateInfo(selected.item) : null;
 
   function selectLocation(location: Location) {
     setSelected({ kind: "location", item: location });
