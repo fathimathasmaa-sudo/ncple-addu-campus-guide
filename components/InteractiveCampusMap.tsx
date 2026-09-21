@@ -88,7 +88,7 @@ export function InteractiveCampusMap() {
               const [number, name] = location;
               const position = hotspotPositions[number];
               const isSelected = selected?.[0] === number;
-              return <button key={number} type="button" onClick={() => selectLocation(location)} aria-label={`${String(number).padStart(2, "0")} — ${name}`} title={name} className={`absolute flex h-7 w-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border text-[9px] font-extrabold shadow-sm transition focus:outline-none focus:ring-4 focus:ring-ncple-200 md:h-8 md:w-8 md:text-[10px] ${isSelected ? "scale-125 border-white bg-ncple-700 text-white ring-4 ring-ncple-200" : "border-white/90 bg-white/90 text-ncple-800 hover:scale-110 hover:bg-ncple-700 hover:text-white"}`} style={position}>{String(number).padStart(2, "0")}</button>;
+              return <button key={number} type="button" onClick={() => selectLocation(location)} aria-label={`${String(number).padStart(2, "0")} — ${name}`} title={name} className="absolute flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-transparent focus:outline-none focus:ring-2 focus:ring-ncple-300" style={position}><span className={`flex h-5 w-5 items-center justify-center rounded-full border text-[9px] font-extrabold shadow-sm transition md:h-6 md:w-6 md:text-[10px] ${isSelected ? "scale-125 border-white bg-ncple-700 text-white ring-2 ring-ncple-200" : "border-white/90 bg-white/90 text-ncple-800 hover:scale-110 hover:bg-ncple-700 hover:text-white"}`}>{String(number).padStart(2, "0")}</span></button>;
             })}
           </div>
         </div>
