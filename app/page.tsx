@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { ArrowRight, Clock3, Map, Utensils, BedDouble, Waves, Gamepad2, Wifi, ShieldCheck, Phone, ClipboardCheck, Search, Sparkles } from "lucide-react";
-import { guide } from "@/data/campusGuide";
+import { getPublicGuide } from "@/lib/publicGuide";
 import { LiveStatus } from "@/components/LiveStatus";
 
 const quick = [
-  ["/map", "Campus Map", Map], ["/dining", "Dining", Utensils], ["/accommodation", "Accommodation", BedDouble],
-  ["/pool", "Swimming Pool", Waves], ["/entertainment", "Entertainment Room", Gamepad2], ["/wifi", "Wi-Fi", Wifi],
+  ["/map", "Campus Map", Map], ["/dining", "Dining", Utensils], ["/accommodation", "Accommodation", BedDouble], ["/pool", "Swimming Pool", Waves], ["/entertainment", "Entertainment Room", Gamepad2], ["/wifi", "Wi-Fi", Wifi],
   ["/safety", "Safety", ShieldCheck], ["/contacts", "Important Contacts", Phone], ["/checkout", "Checkout", ClipboardCheck]
 ] as const;
 
-export default function Home() {
+export default async function Home() {
+  const guide = await getPublicGuide();
   const hours = guide.hours.filter(x => x.featured);
   return <main className="mx-auto max-w-6xl px-4 py-5 md:px-8 md:py-10">
     <header className="relative overflow-hidden rounded-[2rem] bg-ncple-900 p-6 text-white shadow-soft md:p-10 lg:p-12">
