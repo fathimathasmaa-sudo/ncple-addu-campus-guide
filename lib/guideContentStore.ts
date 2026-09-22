@@ -1,7 +1,7 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { firestoreDb } from "./firebase";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { firebaseApp } from "./firebase";
 
-export const guideContentRef = doc(firestoreDb, "guideContent", "main");
+export const guideContentRef = doc(getFirestore(firebaseApp), "guideContent", "main");
 
 const FIREBASE_TIMEOUT_MS = 10000;
 
