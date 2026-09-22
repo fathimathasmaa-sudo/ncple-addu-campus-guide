@@ -25,8 +25,21 @@ const sections = [
 
 type Content = Record<string, unknown>;
 
+type FirebaseErrorLike = {
+  code?: string;
+  message?: string;
+};
+
 function pretty(value: unknown) {
   return JSON.stringify(value, null, 2);
+}
+
+function firebaseErrorText(error: unknown, fallback: string) {
+  const firebaseError = error as FirebaseErrorLike;
+  const code = firebaseError?.code;
+  const message = firebaseError?.message;
+  if (code || message) return `Firebase error${code ? ` (${code})` : ""}: ${message ?? fallback}`;
+  return fallback;
 }
 
 export default function AdminPage() {
@@ -41,7 +54,7 @@ export default function AdminPage() {
         if (saved) setContent(saved);
         setStatus(saved ? "Loaded saved content" : "Using current guide content — save to create the database copy");
       })
-      .catch(() => setStatus("Could not connect to Firebase. Check Firestore setup."));
+      .catch((error) => setStatus(firebaseErrorText(error, "Could not connect to Firebase.")));
   }, []);
 
   const activeValue = content[active];
@@ -63,8 +76,8 @@ export default function AdminPage() {
     try {
       await saveGuideContent(content);
       setStatus(`Saved ${new Date().toLocaleTimeString()}`);
-    } catch {
-      setStatus("Save failed. Check that Firestore is enabled and its rules allow this admin panel.");
+    } catch (error) {
+      setStatus(firebaseErrorText(error, "Save failed."));
     } finally {
       setSaving(false);
     }
@@ -87,7 +100,7 @@ export default function AdminPage() {
             </div>
             <button type="button" onClick={save} disabled={saving} className="inline-flex items-center justify-center gap-2 rounded-2xl bg-ncple-700 px-5 py-3 text-sm font-bold text-white hover:bg-ncple-800 disabled:opacity-60"><Save size={17} />{saving ? "Saving…" : "Save changes"}</button>
           </div>
-          <div className="mt-4 inline-flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600"><span className={`h-2 w-2 rounded-full ${status.startsWith("Could") || status.includes("failed") ? "bg-red-500" : status === "Unsaved changes" ? "bg-amber-500" : "bg-emerald-500"}`} />{status}</div>
+          <div className="mt-4 inline-flex max-w-full items-start gap-2 rounded-xl bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-600"><span className={`mt-1 h-2 w-2 shrink-0 rounded-full ${status.startsWith("Could") || status.includes("failed") || status.startsWith("Firebase error") ? "bg-red-500" : status === "Unsaved changes" ? "bg-amber-500" : "bg-emerald-500"}`} /><span className="break-words">{status}</span></div>
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[260px_1fr]">
